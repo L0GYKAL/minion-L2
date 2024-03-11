@@ -49,7 +49,7 @@ install_necessary_packages() {
   sudo apt-get update
   sudo apt-get install -y git make build-essential python3 pipx gcc g++ \
     cmake pkg-config llvm-dev libclang-dev clang protobuf-compiler jq
-  sudo pipx install web3
+  sudo pipx install web3 --include-deps
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   source ${HOME}/.cargo/env
   trap - ERR
