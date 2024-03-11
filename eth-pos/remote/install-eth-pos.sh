@@ -47,7 +47,7 @@ usage() {
 install_necessary_packages() {
   trap 'exit 1' ERR
   sudo apt-get update
-  sudo apt-get install -y git make build-essential python3 python3-pip gcc g++ \
+  sudo apt-get install -y git make build-essential python3 pipx python3-pip gcc g++ \
     cmake pkg-config llvm-dev libclang-dev clang protobuf-compiler jq
   sudo pip3 install web3
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
