@@ -52,8 +52,18 @@ install_necessary_packages() {
   then
     echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
   fi
-  curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-  sudo apt-get install -y nodejs
+  # Install or update NVM (Node Version Manager)
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+  
+  # Activate NVM
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  
+  # Install the latest LTS version of Node.js
+  nvm install --lts
+  
+  # Set the installed version as default
+  nvm alias default $(nvm current)
   sudo npm install -g n && sudo n latest
   sudo npm install -g pnpm yarn
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
