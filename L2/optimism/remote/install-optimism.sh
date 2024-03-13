@@ -64,8 +64,7 @@ install_necessary_packages() {
   
   # Set the installed version as default
   nvm alias default $(nvm current)
-  sudo npm install -g n && sudo n latest
-  sudo npm install -g pnpm yarn
+  npm install -g pnpm yarn
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   source ${HOME}/.cargo/env
   pip3 install web3 eth-account
