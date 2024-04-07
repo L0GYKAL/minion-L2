@@ -68,8 +68,14 @@ install_necessary_packages() {
 #######################################
 install_go() {
   trap 'exit 1' ERR
-  sudo rm -rf /usr/local/go & sudo wget https://golang.org/dl/go$(curl -s https://golang.org/dl/ | grep -o 'go[0-9.]*' | head -n 1).linux-amd64.tar.gz -O /tmp/go-latest.tar.gz && sudo tar -C /usr/local -xzf /tmp/go-latest.tar.gz && rm /tmp/go-latest.tar.gz
-  source ~/.profile
+  url=$(curl -s https://golang.org/dl/ | grep -oP 'https://dl.google.com/go/go[0-9\.]+\.linux-amd64\.tar\.gz' | head -n 1)
+  latest=$(echo $url | grep -oP 'go[0-9\.]+' | grep -oP '[0-9\.]+')
+  echo "Downloading latest Go for AMD64: ${latest}"
+  wget --quiet --continue --show-progress "$url"
+  sudo rm -rf /usr/local/go
+  sudo tar -C /usr/local -xzf go"${latest}".linux-amd64.tar.gz
+  echo "export PATH=$PATH:/usr/local/go/bin" | sudo tee -a /etc/profile
+  source /etc/profile
   if ! command -v go &> /dev/null
   then
     utils::err 'function install_go(): Go command not found after installation'
