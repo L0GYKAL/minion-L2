@@ -68,14 +68,7 @@ install_necessary_packages() {
 #######################################
 install_go() {
   trap 'exit 1' ERR
-  wget ${GO_URL} > /dev/null 2>&1
-  sudo rm -rf /usr/local/go
-  sudo tar -C /usr/local -xzf ${GO_URL##*/}
-  rm ${GO_URL##*/}
-  if ! grep ~/.profile -e ${GO_PATH} &> /dev/null
-  then
-    echo "export PATH=\$PATH:${GO_PATH}" >> ~/.profile
-  fi
+  sudo rm -rf /usr/local/go & sudo wget https://golang.org/dl/go$(curl -s https://golang.org/dl/ | grep -o 'go[0-9.]*' | head -n 1).linux-amd64.tar.gz -O /tmp/go-latest.tar.gz && sudo tar -C /usr/local -xzf /tmp/go-latest.tar.gz && rm /tmp/go-latest.tar.gz
   source ~/.profile
   if ! command -v go &> /dev/null
   then
