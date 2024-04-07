@@ -67,7 +67,8 @@ install_necessary_packages() {
   npm install -g pnpm yarn
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   source ${HOME}/.cargo/env
-  pipx install web3 eth-account
+  pipx install web3
+  pipx install eth-account
   trap - ERR
 }
 
