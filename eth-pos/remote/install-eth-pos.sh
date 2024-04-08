@@ -52,6 +52,7 @@ install_necessary_packages() {
     libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
   sudo apt-get install -y git make build-essential python3 gcc g++ \
     cmake pkg-config llvm-dev libclang-dev clang protobuf-compiler jq
+  sudo rm -rf /home/user/.pyenv
   curl https://pyenv.run | bash
   export PATH="$HOME/.pyenv/bin:$PATH"
   export PYENV_ROOT="$HOME/.pyenv"
