@@ -47,9 +47,19 @@ usage() {
 install_necessary_packages() {
   trap 'exit 1' ERR
   sudo apt-get update
-  sudo apt-get install -y git make build-essential python3 python3-pip gcc g++ \
+  sudo apt-get install -y git make build-essential python3 gcc g++ \
     cmake pkg-config llvm-dev libclang-dev clang protobuf-compiler jq
-  sudo python3-pip install web3
+  curl https://pyenv.run | bash
+  export PATH="$HOME/.pyenv/bin:$PATH"
+  export PYENV_ROOT="$HOME/.pyenv"
+  eval "$(pyenv init --path)"
+  eval "$(pyenv init -)"
+  source ~/.profile
+
+  pyenv install 3.9.7
+  pyenv virtualenv 3.9.7 Eth-pos
+  pyenv activate Eth-pos
+  sudo pip install web3
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   source ${HOME}/.cargo/env
   trap - ERR
