@@ -47,26 +47,36 @@ usage() {
 install_necessary_packages() {
   trap 'exit 1' ERR
   sudo apt-get update
-  sudo apt-get install -y make build-essential libssl-dev \
-    zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
-    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
   sudo apt-get install -y git make build-essential python3 gcc g++ \
     cmake pkg-config llvm-dev libclang-dev clang protobuf-compiler jq
-  sudo rm -rf /home/user/.pyenv
-  curl https://pyenv.run | bash
-  export PATH="$HOME/.pyenv/bin:$PATH"
-  export PYENV_ROOT="$HOME/.pyenv"
-  eval "$(pyenv init --path)"
-  eval "$(pyenv init -)"
-  source ~/.profile
-
-  pyenv install 3.9.7
-  pyenv virtualenv 3.9.7 Eth-pos
-  pyenv activate Eth-pos
-  sudo pip install web3
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   source ${HOME}/.cargo/env
   trap - ERR
+}
+
+# Function to install Python libraries using venv
+install_library() {
+  trap 'exit 1' ERR
+  local python_version=3
+
+  # Ensure the specified Python version is installed
+  if ! command -v python$python_version &> /dev/null
+  then
+      echo "Python $python_version is not installed. Please install it first."
+      exit
+  fi
+
+  # Create a virtual environment
+  python$python_version -m venv myenv
+
+  # Activate the virtual environment
+  source myenv/bin/activate
+
+  # Install the specified library using pip
+  pip install web3 eth-account
+
+  # Deactivate the virtual environment
+  #deactivate
 }
 
 #######################################

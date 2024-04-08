@@ -67,9 +67,32 @@ install_necessary_packages() {
   npm install -g pnpm yarn
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   source ${HOME}/.cargo/env
-  python3-pip install web3
-  python3-pip install eth-account
   trap - ERR
+}
+
+# Function to install Python libraries using venv
+install_library() {
+  trap 'exit 1' ERR
+  local python_version=3
+
+  # Ensure the specified Python version is installed
+  if ! command -v python$python_version &> /dev/null
+  then
+      echo "Python $python_version is not installed. Please install it first."
+      exit
+  fi
+
+  # Create a virtual environment
+  python$python_version -m venv myenv
+
+  # Activate the virtual environment
+  source myenv/bin/activate
+
+  # Install the specified library using pip
+  pip install web3 eth-account
+
+  # Deactivate the virtual environment
+  #deactivate
 }
 
 #######################################
