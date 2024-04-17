@@ -162,6 +162,8 @@ clone_and_build_OP_monorepo() {
   git clone ${OP_MONOREPO_URL} ${INSTALL_ROOT}/optimism
   cd ${INSTALL_ROOT}/optimism
   git checkout ${OP_MONOREPO_BRANCH}
+  corepack enable
+  corepack prepare pnpm@latest --activate
   pnpm install
   rm -rf ${HOME}/.foundry
   curl -L https://foundry.paradigm.xyz | bash
